@@ -1,0 +1,48 @@
+created:
+    - database/factories/CurrencyFactory.php
+    - database/factories/SubscriptionFactory.php
+    - database/factories/TransactionFactory.php
+    - database/factories/CategoryFactory.php
+    - database/factories/BudgetFactory.php
+    - database/factories/TransactionTagFactory.php
+    - database/factories/PostFactory.php
+    - database/factories/PostTagFactory.php
+    - database/factories/CommentFactory.php
+    - database/factories/LikeFactory.php
+    - database/factories/FollowFactory.php
+    - database/migrations/2024_06_29_071004_create_currencies_table.php
+    - database/migrations/2024_06_29_071005_create_subscriptions_table.php
+    - database/migrations/2024_06_29_071006_create_transactions_table.php
+    - database/migrations/2024_06_29_071007_create_categories_table.php
+    - database/migrations/2024_06_29_071008_create_budgets_table.php
+    - database/migrations/2024_06_29_071009_create_transaction_tags_table.php
+    - database/migrations/2024_06_29_071010_create_posts_table.php
+    - database/migrations/2024_06_29_071011_create_post_tags_table.php
+    - database/migrations/2024_06_29_071012_create_comments_table.php
+    - database/migrations/2024_06_29_071013_create_likes_table.php
+    - database/migrations/2024_06_29_071014_create_follows_table.php
+    - app/Models/Currency.php
+    - app/Models/Subscription.php
+    - app/Models/Transaction.php
+    - app/Models/Category.php
+    - app/Models/Budget.php
+    - app/Models/TransactionTag.php
+    - app/Models/Post.php
+    - app/Models/PostTag.php
+    - app/Models/Comment.php
+    - app/Models/Like.php
+    - app/Models/Follow.php
+models:
+    User: { user_type: integer, subscription_id: 'integer default:1', name: string, email: string, email_verified_at: 'string nullable', password: string }
+    Currency: { name: string, code: string, symbol: string }
+    Subscription: { name: string, description: text, price: float, icon: string }
+    Transaction: { user_id: integer, category_id: 'integer nullable', name: string, description: text, type: string, recurring: boolean, recurring_interval: 'string nullable', price: float, place: 'string nullable', date: 'string nullable' }
+    Category: { user_id: integer, name: string, icon: string, color: string }
+    Budget: { user_id: integer, category_id: 'integer nullable', price: float, start_date: string, end_date: string }
+    Tag: { name: string }
+    TransactionTag: { transaction_id: integer, name: integer }
+    Post: { user_id: integer, title: string, content: text, published: boolean, published_at: 'string nullable' }
+    Comment: { post_id: 'integer nullable', user_id: integer, content: text, published: boolean, published_at: 'string nullable', parent_id: 'integer nullable' }
+    Like: { user_id: integer, post_id: 'integer nullable' }
+    Follow: { user_id: integer, followable_id: integer }
+    PostTag: { post_id: integer, name: string }

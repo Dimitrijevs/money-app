@@ -2,46 +2,75 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Panel;
+use Illuminate\Support\Facades\Hash;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->user_type === 3 || $this->user_type === 2;
+    }
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
+        'user_type',
+        'subscription_id',
+        'avatar_path',
         'name',
         'email',
+        'email_verified_at',
         'password',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @return array<string, string>
+     * @var array
      */
-    protected function casts(): array
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+    public function setPasswordAttribute($value)
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function setAvatarPathAttribute($value)
+    {
+        if (empty($value)) {
+            $this->attributes['avatar_path'] = 'avatars/default.png';
+        } else {
+            $this->attributes['avatar_path'] = $value;
+        }
+    }
+
+    public function getUserType()
+    {
+        return $this->belongsTo(UserType::class, 'user_type');
+    }
+
+    public function getSubscription()
+    {
+        return $this->belongsTo(Subscription::class, 'subscription_id');
     }
 }

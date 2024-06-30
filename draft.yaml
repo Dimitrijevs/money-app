@@ -1,0 +1,67 @@
+models:
+  Currency:
+    name: string
+    code: string
+    symbol: string
+
+  Subscription:
+    name: string
+    description: text
+    price: float
+    icon: string
+
+  Transaction:
+    user_id: integer
+    category_id: integer nullable
+    name: string
+    description: text
+    type: string # income or expense
+    recurring: boolean
+    recurring_interval: string nullable # daily, weekly, monthly, yearly
+    price: float
+    place: string nullable
+    date: string nullable
+
+  Category:
+    user_id: integer
+    name: string
+    icon: string
+    color: string
+
+  Budget:
+    user_id: integer
+    category_id: integer nullable
+    price: float
+    start_date: string
+    end_date: string
+
+  TransactionTag:
+    transaction_id: integer
+    name: integer
+
+  Post:
+    user_id: integer
+    title: string
+    content: text
+    published: boolean
+    published_at: string nullable
+
+  PostTag:
+    post_id: integer
+    name: string
+
+  Comment:
+    post_id: integer nullable
+    user_id: integer
+    content: text
+    published: boolean
+    published_at: string nullable
+    parent_id: integer nullable
+
+  Like:
+    user_id: integer
+    post_id: integer nullable
+
+  Follow:
+    user_id: integer
+    followable_id: integer
